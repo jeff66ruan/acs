@@ -70,6 +70,18 @@ with Pattern defaulting to the symbol under point."
     (pop-to-buffer "*codesearch*")
     (compilation-mode)))
 
+(defun acs-build-index (directory)
+  "Search in a given DIRECTORY or files for a given search PATTERN,
+with Pattern defaulting to the symbol under point."
+  (interactive (list (read-directory-name "Directory: ")))
+  (let ((commands nil)
+	(full-directory (expand-file-name directory)))
+    (unless (file-exists-p full-directory)
+      (error "No such directory %s" default-directory))
+    (setq commands (list acs-cindex full-directory))
+    (setq commands (mapconcat 'shell-quote-argument commands " "))
+    (shell-command commands)))
+
 (defun acs-list-index-dir ()
   "List indexed directories."
   (interactive)
@@ -83,6 +95,14 @@ with Pattern defaulting to the symbol under point."
   (interactive)
   (let ((commands nil))
     (setq commands (list acs-cindex))
+    (setq commands (mapconcat 'shell-quote-argument commands " "))
+    (shell-command commands)))
+
+(defun acs-reset-index ()
+  "Reset indexed directories."
+  (interactive)
+  (let ((commands nil))
+    (setq commands (list acs-cindex "--reset"))
     (setq commands (mapconcat 'shell-quote-argument commands " "))
     (shell-command commands)))
 
