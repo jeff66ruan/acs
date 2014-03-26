@@ -1,4 +1,4 @@
-;;; acs.el --- A front-end for codesearch
+;; acs.el --- A front-end for codesearch
 
 ;; Copyright (C) 2014 Jeff Ruan <jeff66ruan@gmail.com>
 ;;
@@ -52,22 +52,20 @@
    string. "
   (cond ((use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end)))
-        ((symbol-at-point)
-         (substring-no-properties
-          (symbol-name (symbol-at-point))))))
+        (t
+	 (thing-at-point 'symbol))))
 
 (defun acs (string directory)
-  "Search in a given DIRECTORY or files for a given search STRING,
-with STRING defaulting to the symbol under point. Both DIRECTORY
-and string is PATTERN"
-  (interactive (list (read-from-minibuffer "Search string: " (acs-region-or-symbol-at-point))
+  "Search in a given DIRECTORY or files for a given search PATTERN,
+with Pattern defaulting to the symbol under point."
+  (interactive (list (read-from-minibuffer "Search Pattern: " (acs-region-or-symbol-at-point))
                       (read-directory-name "Directory: ")))
+  (unless (> (length string) 0)
+    (error "No search pattern was given"))
   (let ((commands nil)
-	(full-directory (expand-file-name directory))
-	(switch-to-visible-buffer t))
+	(full-directory (expand-file-name directory)))
     (setq commands (list acs-csearch "-f" full-directory "-n" string))
     (setq commands (mapconcat 'shell-quote-argument commands " "))
-    (print commands)
     (shell-command commands "*codesearch*")
     (pop-to-buffer "*codesearch*")
     (compilation-mode)))
