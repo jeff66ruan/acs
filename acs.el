@@ -70,5 +70,20 @@ with Pattern defaulting to the symbol under point."
     (pop-to-buffer "*codesearch*")
     (compilation-mode)))
 
+(defun acs-list-index-dir ()
+  "List indexed directories."
+  (interactive)
+  (let ((commands nil))
+    (setq commands (list acs-cindex "--list"))
+    (setq commands (mapconcat 'shell-quote-argument commands " "))
+    (shell-command commands)))
+
+(defun acs-update-index ()
+  "Update indexed directories."
+  (interactive)
+  (let ((commands nil))
+    (setq commands (list acs-cindex))
+    (setq commands (mapconcat 'shell-quote-argument commands " "))
+    (shell-command commands)))
 
 (provide 'acs)
