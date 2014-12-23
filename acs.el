@@ -2,9 +2,6 @@
 
 ;;; Commentary:
 
-;; 
-;; 
-
 ;;; License:
 
 ;; This file is not part of GNU Emacs.
