@@ -1,10 +1,5 @@
 ;; acs.el --- A front-end for codesearch
 
-;; Copyright (C) 2014 Jeff Ruan <jeff66ruan@gmail.com>
-;;
-;; Author: Jeff Ruan
-
-
 ;;; Commentary:
 
 ;; 
